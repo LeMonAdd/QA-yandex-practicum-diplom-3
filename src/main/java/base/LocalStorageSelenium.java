@@ -3,10 +3,10 @@ package base;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
-public class LocalStorage {
+public class LocalStorageSelenium {
         private JavascriptExecutor js;
 
-        public LocalStorage(WebDriver webDriver) {
+        public LocalStorageSelenium(WebDriver webDriver) {
             this.js = (JavascriptExecutor) webDriver;
         }
 

@@ -1,15 +1,16 @@
-package page;
+package pages;
 
 import base.BasePage;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import io.restassured.response.ValidatableResponse;
 import model.User;
+import org.junit.Assert;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 import static base.Const.Urls.*;
+import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Selenide.*;
 import static io.restassured.RestAssured.given;
 
@@ -28,11 +29,14 @@ public class Registration extends BasePage {
     @FindBy(how = How.NAME, using = "Пароль")
     private SelenideElement inputPassword;
 
-    @FindBy(how = How.XPATH, using = "//button[contains(text(), 'Зарегистрироваться')]")
+    @FindBy(how = How.XPATH, using = "//*[contains(text(), 'Зарегистрироваться')]")
     private SelenideElement btnReg;
 
     @FindBy(how = How.XPATH, using = "//button[contains(text(), 'Войти')]")
     private SelenideElement btnAuth;
+    @FindBy(how = How.NAME, using = "Name")
+    private SelenideElement fieldNameInProfile;
+
 
     public Registration btnPersonalAreaClick() {
         btnPersonalArea.shouldBe(Condition.enabled).click();
@@ -59,6 +63,10 @@ public class Registration extends BasePage {
         return Selenide.page(Registration.class);
     }
 
+    public String getInputValue() {
+        return fieldNameInProfile.should(exist).getValue();
+    }
+
     public Registration registration(String name, String email, String password) {
         setInputName(name);
         setInputEmail(email);
@@ -67,12 +75,14 @@ public class Registration extends BasePage {
         return Selenide.page(Registration.class);
     }
 
-    public Registration authorization(String email, String password) {
+    public Registration authorizationAndAssertNameUser(User user) {
         open(BASE_URL + AUTH_URL);
-        setInputEmail(email);
-        setInputPassword(password);
+        setInputEmail(user.getEmail());
+        setInputPassword(user.getPassword());
         btnAuth.shouldBe(Condition.enabled).click();
         sleep(2);
+        btnPersonalArea.shouldBe(Condition.visible).click();
+        Assert.assertEquals(user.getName(), getInputValue());
         return Selenide.page(Registration.class);
     }
 
@@ -81,4 +91,8 @@ public class Registration extends BasePage {
         return Selenide.page(Registration.class);
     }
 
+    public Registration assertErrorSetInputPassword() {
+        $x("//p[@class='input__error text_type_main-default']").shouldBe(Condition.visible).shouldHave(Condition.text("Некорректный пароль"));
+        return Selenide.page(Registration.class);
+    }
 }

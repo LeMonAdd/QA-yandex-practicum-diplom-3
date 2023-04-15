@@ -1,23 +1,52 @@
-import com.codeborne.selenide.Selenide;
-import org.junit.Before;
+import base.BaseTest;
+import io.qameta.allure.junit4.DisplayName;
+import io.restassured.response.ValidatableResponse;
+import org.junit.Assert;
 import org.junit.Test;
-import page.Registration;
+import pages.Registration;
 
+import static base.BasePage.getTokenUser;
 import static base.Const.Urls.BASE_URL;
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.Selenide.*;
+import static java.net.HttpURLConnection.HTTP_OK;
 
-public class NewTestblabla {
+public class RegistrationTest extends BaseTest {
     Registration registration;
 
-    @Before
-    public void setup() {
+    @Test
+    @DisplayName("Успешная регистрация, UI регистрация")
+    public void successfulRegistrationTest() {
+        registration = open(BASE_URL, Registration.class)
+                .btnPersonalAreaClick()
+                .linkRegClick()
+                .registration(user.getName(), user.getEmail(), user.getPassword())
+                .authorizationAndAssertNameUser(user);
 
+        accessToken = getTokenUser();
     }
 
     @Test
-    public void test2() {
-        registration = open(BASE_URL, Registration.class)
-                .btnRegClick();
+    @DisplayName("Успешная регистрация, API регистрация")
+    public void successfulRegistrationAPITest() {
+        ValidatableResponse createUser = basePage.createUser(user);
+        int statusCode = createUser.extract().statusCode();
+        Boolean success = createUser.extract().path("success");
+        Assert.assertTrue(success);
+        Assert.assertEquals(HTTP_OK, statusCode);
+
+        accessToken = createUser.extract().path("accessToken");
     }
+
+    @Test
+    @DisplayName("Ошибка для некорректного пароля. Минимальный пароль — шесть символов.")
+    public void errorForInvalidPasswordTest() {
+        registration = open(BASE_URL, Registration.class)
+                .btnPersonalAreaClick()
+                .linkRegClick()
+                .registration(user.getName(), user.getEmail(), faker.number().digits(4))
+                .assertErrorSetInputPassword();
+
+        accessToken = null;
+    }
+
 }
