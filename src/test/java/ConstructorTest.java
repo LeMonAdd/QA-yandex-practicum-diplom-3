@@ -17,9 +17,9 @@ import static com.codeborne.selenide.Selenide.*;
 
 @RunWith(Parameterized.class)
 public class ConstructorTest {
-    private boolean isYandex = false;
-    private int index;
-    private String expectedName;
+    public boolean isYandex = false;
+    public int index;
+    public String expectedName;
     public ConstructorTest(int index, String expectedName) {
         this.index = index;
         this.expectedName = expectedName;
@@ -61,6 +61,7 @@ public class ConstructorTest {
             yandexBrowser();
         }
     }
+    //rrfweffewfwwfe
 
     @Test
     @DisplayName("Раздел «Конструктор». Проверь, что работают переходы к разделам: «Булки», «Соусы»,«Начинки».")
