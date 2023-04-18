@@ -9,9 +9,8 @@ import static base.Const.Urls.*;
 import static com.codeborne.selenide.Selenide.open;
 
 public class EntranceTest extends BaseTest {
-    Entrance entrance;
-    UserCred userCred = new UserCred();;
-
+    public Entrance entrance;
+    private UserCred userCred = new UserCred();
 
     @Test
     @DisplayName("Вход по кнопке «Войти в аккаунт» на главной")

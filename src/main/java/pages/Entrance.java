@@ -4,6 +4,7 @@ import base.BasePage;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import org.junit.Assert;
 import model.User;
 import org.openqa.selenium.support.FindBy;
@@ -43,21 +44,25 @@ public class Entrance extends BasePage {
     @FindBy(how = How.NAME, using = "Name")
     private SelenideElement fieldNameInProfile;
 
+    @Step("Клик на кнопку авторизации на главной странице")
     public Entrance mainPageBtnAuthClick() {
         mainPageBtnAuth.shouldBe(Condition.visible).click();
         return Selenide.page(Entrance.class);
     }
 
+    @Step("Ввести имя пользователя")
     public Entrance setInputName(String name) {
         inputName.shouldBe(Condition.enabled).setValue(name);
         return Selenide.page(Entrance.class);
     }
 
+    @Step("Ввести е-мейл пользователя")
     public Entrance setInputEmail(String email) {
         inputEmail.shouldBe(Condition.enabled).setValue(email);
         return Selenide.page(Entrance.class);
     }
 
+    @Step("Ввести пароль пользователя")
     public Entrance setInputPassword(String password) {
         inputPassword.shouldBe(Condition.enabled).setValue(password);
         return Selenide.page(Entrance.class);
@@ -69,6 +74,7 @@ public class Entrance extends BasePage {
 
 
 
+    @Step("Регистрация пользователя")
     public Entrance registration(User user) {
         btnPersonalArea.shouldBe(Condition.visible).click();
         btnReg.shouldBe(Condition.visible).click();
@@ -79,6 +85,7 @@ public class Entrance extends BasePage {
         return Selenide.page(Entrance.class);
     }
 
+    @Step("Авторизация пользователя")
     public void authorization(User user) {
         setInputEmail(user.getEmail());
         setInputPassword(user.getPassword());
@@ -86,6 +93,7 @@ public class Entrance extends BasePage {
         sleep(1000);
     }
 
+    @Step("Авторизация пользователя и проверка имени в личном кабинете")
     public Entrance authorizationAndCheckName(User user) {
         open(BASE_URL);
         mainPageBtnAuthClick();
@@ -95,6 +103,7 @@ public class Entrance extends BasePage {
         return Selenide.page(Entrance.class);
     }
 
+    @Step("Авторизация пользователя через кнопку личного кабинета")
     public Entrance authorizationTheButtonPersonalAccount(User user) {
         btnPersonalArea.shouldBe(Condition.visible).click();
         authorization(user);
@@ -103,6 +112,7 @@ public class Entrance extends BasePage {
         return Selenide.page(Entrance.class);
     }
 
+    @Step("Авторизация пользователя из страницы регистрации")
     public Entrance authorizationThePageRegister(User user) {
         btnAuth.shouldBe(Condition.visible).click();
         authorization(user);
@@ -111,6 +121,7 @@ public class Entrance extends BasePage {
         return Selenide.page(Entrance.class);
     }
 
+    @Step("Авторизация пользователя из страницы восстановления пароля")
     public Entrance authorizationThePageForgotPassword(User user) {
         open(BASE_URL + FORGOT_PASSWORD_URL);
         btnAuth.shouldBe(Condition.visible).click();

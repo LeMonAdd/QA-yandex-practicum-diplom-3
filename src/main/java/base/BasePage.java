@@ -1,6 +1,7 @@
 package base;
 
 import com.codeborne.selenide.Selenide;
+import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 import model.User;
 
@@ -22,6 +23,7 @@ public class BasePage {
         return url();
     }
 
+    @Step("Создание пользователя")
     public ValidatableResponse createUser(User user) {
         return given()
                 .header("Content-type", "application/json")
@@ -30,6 +32,7 @@ public class BasePage {
                 .then();
     }
 
+    @Step("Авторизация пользователя")
     public ValidatableResponse authorization(User user, String token) {
         return given()
                 .header("Content-type", "Application/json")
@@ -42,6 +45,7 @@ public class BasePage {
                 .then();
     }
 
+    @Step("Удаление пользователя")
     public ValidatableResponse deleteUser(String accessToken) {
         return given()
                 .header("Content-type", "Application/json")

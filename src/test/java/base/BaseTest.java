@@ -23,7 +23,7 @@ public class BaseTest {
     public Faker faker;
     public User user;
 
-    boolean isYandex = true;
+    public boolean isYandex = true;
 
     public void yandexBrowser() {
         ChromeOptions options = new ChromeOptions();

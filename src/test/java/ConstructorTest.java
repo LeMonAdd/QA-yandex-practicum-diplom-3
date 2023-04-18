@@ -17,9 +17,9 @@ import static com.codeborne.selenide.Selenide.*;
 
 @RunWith(Parameterized.class)
 public class ConstructorTest {
-    boolean isYandex = false;
-    int index;
-    String expectedName;
+    private boolean isYandex = false;
+    private int index;
+    private String expectedName;
     public ConstructorTest(int index, String expectedName) {
         this.index = index;
         this.expectedName = expectedName;
@@ -34,7 +34,7 @@ public class ConstructorTest {
         WebDriverRunner.setWebDriver(driver);
     }
 
-    @Parameterized.Parameters
+    @Parameterized.Parameters(name = "Список ингредиентов. Тестовые данные: {0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10} {11} {12} {13} {14} {15}")
     public static Object[][] getText() {
         return new Object[][] {
                 {0, "Флюоресцентная булка R2-D3"},

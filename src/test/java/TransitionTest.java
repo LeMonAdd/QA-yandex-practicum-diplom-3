@@ -8,7 +8,7 @@ import static base.Const.Urls.BASE_URL;
 import static com.codeborne.selenide.Selenide.*;
 
 public class TransitionTest extends BaseTest {
-    Transition transition;
+    public Transition transition;
 
     @Test
     @DisplayName("Переход в личный кабинет")

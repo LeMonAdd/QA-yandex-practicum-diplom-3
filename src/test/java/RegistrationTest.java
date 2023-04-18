@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static java.net.HttpURLConnection.HTTP_OK;
 
 public class RegistrationTest extends BaseTest {
-    Registration registration;
+    public Registration registration;
 
     @Test
     @DisplayName("Успешная регистрация, UI регистрация")
@@ -31,10 +31,10 @@ public class RegistrationTest extends BaseTest {
         ValidatableResponse createUser = basePage.createUser(user);
         int statusCode = createUser.extract().statusCode();
         Boolean success = createUser.extract().path("success");
+        accessToken = createUser.extract().path("accessToken");
+
         Assert.assertTrue(success);
         Assert.assertEquals(HTTP_OK, statusCode);
-
-        accessToken = createUser.extract().path("accessToken");
     }
 
     @Test
